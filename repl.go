@@ -10,12 +10,8 @@ import (
 type config struct {
 	// state
 	commands map[string]cliCommand
-}
-
-func getConfig() config {
-	return config{
-		commands: getCommands(),
-	}
+	Next     string
+	Previous string
 }
 
 type cliCommand struct {
@@ -26,6 +22,16 @@ type cliCommand struct {
 
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
+		"map": {
+			name:        "map",
+			description: "List next 20 location areas",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "List previous location areas",
+			callback:    commandMapB,
+		},
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
