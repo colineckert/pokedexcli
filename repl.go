@@ -7,6 +7,27 @@ import (
 	"strings"
 )
 
+type cliCommand struct {
+	name        string
+	description string
+	callback    func() error
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
+	}
+}
+
 func cleanInput(text string) []string {
 	lower := strings.ToLower(text)
 	words := strings.Fields(lower)
@@ -19,24 +40,23 @@ func startRepl() {
 	for {
 		fmt.Print("Pokedex > ")
 
+		scanner.Scan()
+		input := scanner.Text()
+
 		if err := scanner.Err(); err != nil {
 			fmt.Println("Error reading input:", err)
 			continue
 		}
 
-		input := ""
-		if scanner.Scan() {
-			input = input + scanner.Text()
+		cleanedInput := cleanInput(input)
+		commandName := cleanedInput[0]
+		supportedCommands := getCommands()
+		command, ok := supportedCommands[commandName]
+		if !ok {
+			fmt.Println("Unknown command")
+			continue
 		}
 
-		if input == "exit" {
-			fmt.Println("Exiting Pokedex REPL.")
-			break
-		}
-
-		words := cleanInput(input)
-
-		fmt.Printf("Your command was: %s", words[0])
-		fmt.Println()
+		command.callback()
 	}
 }
