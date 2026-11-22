@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/colineckert/pokedexcli/internal/pokeapi"
 )
 
+// shared state
 type config struct {
-	// state
-	commands map[string]cliCommand
-	Next     string
-	Previous string
+	commands             map[string]cliCommand
+	pokeapiClient        pokeapi.Client
+	nextLocationsURL     *string
+	previousLocationsURL *string
 }
 
 type cliCommand struct {
@@ -25,12 +28,12 @@ func getCommands() map[string]cliCommand {
 		"map": {
 			name:        "map",
 			description: "List next 20 location areas",
-			callback:    commandMap,
+			callback:    commandMapf,
 		},
 		"mapb": {
 			name:        "mapb",
 			description: "List previous location areas",
-			callback:    commandMapB,
+			callback:    commandMapb,
 		},
 		"help": {
 			name:        "help",
