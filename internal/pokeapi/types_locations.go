@@ -11,23 +11,10 @@ type LocationAreasRes struct {
 }
 
 type LocationDetails struct {
-	ID                   int    `json:"id"`
-	Name                 string `json:"name"`
-	GameIndex            int    `json:"game_index"`
-	EncounterMethodRates []struct {
-		EncounterMethod struct {
-			Name string `json:"name"`
-			URL  string `json:"url"`
-		} `json:"encounter_method"`
-		VersionDetails []struct {
-			Rate    int `json:"rate"`
-			Version struct {
-				Name string `json:"name"`
-				URL  string `json:"url"`
-			} `json:"version"`
-		} `json:"version_details"`
-	} `json:"encounter_method_rates"`
-	Location struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	GameIndex int    `json:"game_index"`
+	Location  struct {
 		Name string `json:"name"`
 		URL  string `json:"url"`
 	} `json:"location"`
@@ -43,22 +30,186 @@ type LocationDetails struct {
 			Name string `json:"name"`
 			URL  string `json:"url"`
 		} `json:"pokemon"`
-		VersionDetails []struct {
-			Version struct {
+	} `json:"pokemon_encounters"`
+}
+
+type PokemonDetails struct {
+	ID             int    `json:"id"`
+	Name           string `json:"name"`
+	BaseExperience int    `json:"base_experience"`
+	Height         int    `json:"height"`
+	IsDefault      bool   `json:"is_default"`
+	Order          int    `json:"order"`
+	Weight         int    `json:"weight"`
+	Abilities      []struct {
+		IsHidden bool `json:"is_hidden"`
+		Slot     int  `json:"slot"`
+		Ability  struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"ability"`
+	} `json:"abilities"`
+	PastAbilities []struct {
+		Generation struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"generation"`
+		Abilities []struct {
+			IsHidden bool        `json:"is_hidden"`
+			Slot     int         `json:"slot"`
+			Ability  interface{} `json:"ability"`
+		} `json:"abilities"`
+	} `json:"past_abilities"`
+	Forms []struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"forms"`
+	GameIndices []struct {
+		GameIndex int `json:"game_index"`
+		Version   struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"version"`
+	} `json:"game_indices"`
+	HeldItems              []interface{} `json:"held_items"`
+	LocationAreaEncounters string        `json:"location_area_encounters"`
+	Moves                  []struct {
+		Move struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"move"`
+		VersionGroupDetails []struct {
+			LevelLearnedAt int `json:"level_learned_at"`
+			VersionGroup   struct {
 				Name string `json:"name"`
 				URL  string `json:"url"`
-			} `json:"version"`
-			MaxChance        int `json:"max_chance"`
-			EncounterDetails []struct {
-				MinLevel        int   `json:"min_level"`
-				MaxLevel        int   `json:"max_level"`
-				ConditionValues []any `json:"condition_values"`
-				Chance          int   `json:"chance"`
-				Method          struct {
-					Name string `json:"name"`
-					URL  string `json:"url"`
-				} `json:"method"`
-			} `json:"encounter_details"`
-		} `json:"version_details"`
-	} `json:"pokemon_encounters"`
+			} `json:"version_group"`
+			MoveLearnMethod struct {
+				Name string `json:"name"`
+				URL  string `json:"url"`
+			} `json:"move_learn_method"`
+			Order            interface{} `json:"order"`
+			EnhancementLevel interface{} `json:"enhancement_level"`
+		} `json:"version_group_details"`
+	} `json:"moves"`
+	Species struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"species"`
+	Sprites struct {
+		Other struct {
+			Home struct {
+				FrontShiny       string      `json:"front_shiny"`
+				FrontFemale      interface{} `json:"front_female"`
+				FrontDefault     string      `json:"front_default"`
+				FrontShinyFemale interface{} `json:"front_shiny_female"`
+			} `json:"home"`
+			Showdown struct {
+				BackShiny        string      `json:"back_shiny"`
+				BackFemale       interface{} `json:"back_female"`
+				FrontShiny       string      `json:"front_shiny"`
+				BackDefault      string      `json:"back_default"`
+				FrontFemale      interface{} `json:"front_female"`
+				FrontDefault     string      `json:"front_default"`
+				BackShinyFemale  interface{} `json:"back_shiny_female"`
+				FrontShinyFemale interface{} `json:"front_shiny_female"`
+			} `json:"showdown"`
+		} `json:"other"`
+		Versions struct {
+			GenerationI struct {
+				Yellow struct {
+					BackGbc              string `json:"back_gbc"`
+					BackGray             string `json:"back_gray"`
+					FrontGbc             string `json:"front_gbc"`
+					FrontGray            string `json:"front_gray"`
+					BackDefault          string `json:"back_default"`
+					FrontDefault         string `json:"front_default"`
+					BackTransparent      string `json:"back_transparent"`
+					FrontTransparent     string `json:"front_transparent"`
+					BackTransparentGray  string `json:"back_transparent_gray"`
+					FrontTransparentGray string `json:"front_transparent_gray"`
+				} `json:"yellow"`
+				RedBlue struct {
+					BackGray             string `json:"back_gray"`
+					FrontGray            string `json:"front_gray"`
+					BackDefault          string `json:"back_default"`
+					FrontDefault         string `json:"front_default"`
+					BackTransparent      string `json:"back_transparent"`
+					FrontTransparent     string `json:"front_transparent"`
+					BackTransparentGray  string `json:"back_transparent_gray"`
+					FrontTransparentGray string `json:"front_transparent_gray"`
+				} `json:"red-blue"`
+			} `json:"generation-i"`
+			GenerationV struct {
+				Icons struct {
+					Animated struct {
+						FrontDefault string `json:"front_default"`
+					} `json:"animated"`
+					FrontDefault string `json:"front_default"`
+				} `json:"icons"`
+				BlackWhite struct {
+					Animated struct {
+						BackShiny        string      `json:"back_shiny"`
+						BackFemale       interface{} `json:"back_female"`
+						FrontShiny       string      `json:"front_shiny"`
+						BackDefault      string      `json:"back_default"`
+						FrontFemale      interface{} `json:"front_female"`
+						FrontDefault     string      `json:"front_default"`
+						BackShinyFemale  interface{} `json:"back_shiny_female"`
+						FrontShinyFemale interface{} `json:"front_shiny_female"`
+					} `json:"animated"`
+					BackShiny        string      `json:"back_shiny"`
+					BackFemale       interface{} `json:"back_female"`
+					FrontShiny       string      `json:"front_shiny"`
+					BackDefault      string      `json:"back_default"`
+					FrontFemale      interface{} `json:"front_female"`
+					FrontDefault     string      `json:"front_default"`
+					BackShinyFemale  interface{} `json:"back_shiny_female"`
+					FrontShinyFemale interface{} `json:"front_shiny_female"`
+				} `json:"black-white"`
+			} `json:"generation-v"`
+		} `json:"versions"`
+		BackShiny        string      `json:"back_shiny"`
+		BackFemale       interface{} `json:"back_female"`
+		FrontShiny       string      `json:"front_shiny"`
+		BackDefault      string      `json:"back_default"`
+		FrontFemale      interface{} `json:"front_female"`
+		FrontDefault     string      `json:"front_default"`
+		BackShinyFemale  interface{} `json:"back_shiny_female"`
+		FrontShinyFemale interface{} `json:"front_shiny_female"`
+	} `json:"sprites"`
+	Cries struct {
+		Latest string `json:"latest"`
+		Legacy string `json:"legacy"`
+	} `json:"cries"`
+	Stats []struct {
+		BaseStat int `json:"base_stat"`
+		Effort   int `json:"effort"`
+		Stat     struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"stat"`
+	} `json:"stats"`
+	PastStats []struct {
+		Generation struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"generation"`
+		Stats []struct {
+			BaseStat int `json:"base_stat"`
+			Effort   int `json:"effort"`
+			Stat     struct {
+				Name string `json:"name"`
+				URL  string `json:"url"`
+			} `json:"stat"`
+		} `json:"stats"`
+	} `json:"past_stats"`
+	Types []struct {
+		Slot int `json:"slot"`
+		Type struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"type"`
+	} `json:"types"`
+	PastTypes []interface{} `json:"past_types"`
 }
